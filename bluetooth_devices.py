@@ -5,6 +5,7 @@ import socket
 import os
 from subprocess import DEVNULL, PIPE
 from typing import Awaitable, Callable, Optional, TYPE_CHECKING
+import pdb
 
 from dasbus.connection import SystemMessageBus
 
@@ -180,7 +181,7 @@ class BluetoothDeviceRegistry:
         print("Adding all BT devices")
         om = self.bus.get_proxy(service_name= "org.bluez", object_path="/", interface_name=OBJECT_MANAGER_INTERFACE)
         objs = om.GetManagedObjects()
-
+        #pdb.set_trace()
         for obj in list(objs):
             if INPUT_HOST_INTERFACE in objs[obj]:
                 self.add_device(obj, True)
@@ -237,6 +238,7 @@ class BluetoothDeviceRegistry:
         self.current_host_index = (self.current_host_index + 1) % len(self.connected_hosts)
 
     def __get_current_host_as_list(self) -> list[BluetoothDevice]:
+        #pdb.set_trace()
         if len(self.connected_hosts) <= self.current_host_index:
             return []
         return [self.connected_hosts[self.current_host_index]]
